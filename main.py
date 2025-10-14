@@ -8,19 +8,21 @@ load_dotenv()
 
 app = FastAPI(title="Kindtime API")
 
-FRONTEND = os.getenv('FRONTEND_ORIGIN', '*')
+FRONTEND = os.getenv("FRONTEND_ORIGIN", "*")
 
+# ✅ Enable CORS globally
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND] if FRONTEND != '*' else ['*'],
+    allow_origins=["*"],  # or [FRONTEND] if you prefer
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(chat.router)
-app.include_router(moods.router)
+# ✅ Register your routers *after* CORS middleware
+app.include_router(chat.router, prefix="/chat", tags=["chat"])
+app.include_router(moods.router, prefix="/moods", tags=["moods"])
 
-@app.get('/')
+@app.get("/")
 def root():
     return {"message": "Kindtime API running"}
