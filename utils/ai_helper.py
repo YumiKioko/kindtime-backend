@@ -2,6 +2,7 @@
 
 from openai import OpenAI
 import os
+print("✅ Loaded new ai_helper.py — using OpenAI 2.x client syntax")
 
 # Initialize OpenAI client with your API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
